@@ -174,7 +174,7 @@ namespace RhinoXUnitFixture
     public class RhinoMocksTests
     {
       
-        class MockedInterface
+        class MockedInterfaces
         {
             public IValidator Validator = MockRepository.GenerateMock<IValidator>();
         }
@@ -194,7 +194,7 @@ namespace RhinoXUnitFixture
     public class RhinoMocksTests
     {
       
-        class MockedInterface
+        class MockedInterfaces
         {
             public IValidator Validator = Substitute.For<IValidator>();
         }
