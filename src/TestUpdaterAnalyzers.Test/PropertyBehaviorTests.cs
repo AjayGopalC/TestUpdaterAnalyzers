@@ -161,6 +161,50 @@ namespace RhinoXUnitFixture
             VerifyCSharpFix(test, expectedSource, allowNewCompilerDiagnostics: false);
         }
 
+        [TestMethod]
+        public void MockInterfacePropertyBehavior()
+        {
+            var test = @"
+using Rhino.Mocks;
+using Xunit;
+using SampleBusinessLogic;
+
+namespace RhinoXUnitFixture
+{
+    public class RhinoMocksTests
+    {
+      
+        class MockedInterfaces
+        {
+            public IValidator Validator = MockRepository.GenerateMock<IValidator>();
+        }
+    }
+}
+";
+
+
+            var expectedSource = @"
+using NSubstitute;
+using Rhino.Mocks;
+using Xunit;
+using SampleBusinessLogic;
+
+namespace RhinoXUnitFixture
+{
+    public class RhinoMocksTests
+    {
+      
+        class MockedInterfaces
+        {
+            public IValidator Validator = Substitute.For<IValidator>();
+        }
+    }
+}
+";
+            VerifyCSharpFix(test, expectedSource, allowNewCompilerDiagnostics: false);
+        }
+
+
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
             return new TestUpdaterAnalyzersCodeFixProvider();

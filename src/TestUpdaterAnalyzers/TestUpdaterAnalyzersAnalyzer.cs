@@ -24,18 +24,35 @@ namespace TestUpdaterAnalyzers
         {
             context.EnableConcurrentExecution();
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
-            context.RegisterSyntaxNodeAction(AnalyzeMethods, SyntaxKind.MethodDeclaration);
+            context.RegisterSyntaxNodeAction(AnalyzeMethods, SyntaxKind.MethodDeclaration, SyntaxKind.ClassDeclaration);
         }
 
         private void AnalyzeMethods(SyntaxNodeAnalysisContext context)
         {
-            var methodSyntax = (MethodDeclarationSyntax)context.Node;
-            var finder = new RhinoSyntaxFinder(context.SemanticModel, (node, localScope) =>
+            if (context.Node is ClassDeclarationSyntax classSyntax)
             {
-                var diagnostic = Diagnostic.Create(RhinoUsageRule, methodSyntax.GetLocation(), ImmutableDictionary<string, string>.Empty.Add("localscope", localScope.ToString()), methodSyntax.Identifier.ValueText);
-                context.ReportDiagnostic(diagnostic);
-            });
-            finder.Find(methodSyntax);
+                if(classSyntax.Identifier.ToString() == "MockedInterfaces"  || classSyntax.Identifier.ToString() == "MockInterface")
+                {
+                    var finder = new RhinoSyntaxFinder(context.SemanticModel, (node, localScope) =>
+                    {
+                        var diagnostic = Diagnostic.Create(RhinoUsageRule, classSyntax.GetLocation(), ImmutableDictionary<string, string>.Empty.Add("localscope", localScope.ToString()), classSyntax.Identifier.ValueText);
+                        context.ReportDiagnostic(diagnostic);
+                    });
+                    finder.Find(classSyntax);
+                }
+            }
+            else 
+            {
+                var methodSyntax = (MethodDeclarationSyntax)context.Node;
+                var finder = new RhinoSyntaxFinder(context.SemanticModel, (node, localScope) =>
+                {
+                    var diagnostic = Diagnostic.Create(RhinoUsageRule, methodSyntax.GetLocation(), ImmutableDictionary<string, string>.Empty.Add("localscope", localScope.ToString()), methodSyntax.Identifier.ValueText);
+                    context.ReportDiagnostic(diagnostic);
+                });
+                finder.Find(methodSyntax);
+            }
+            
+            
         }
     }
 }
