@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="TestUpdaterAnalyzers.4cd1ac83-a79b-4814-a173-5f5f81c15ffc" Version="1.0" Language="en-US" Publisher="ladea"/>
+    <Identity Id="TestUpdaterAnalyzers.4cd1ac83-a79b-4814-a173-5f5f81c15ffc" Version="1.1" Language="en-US" Publisher="ladea"/>
     <DisplayName>TestUpdaterAnalyzers</DisplayName>
     <Description xml:space="preserve">This is a sample diagnostic extension for the .NET Compiler Platform ("Roslyn").</Description>
   </Metadata>
